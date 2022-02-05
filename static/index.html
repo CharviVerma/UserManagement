@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Registration page</title>
+    </head>
+    <body>
+        <h1>Registration</h1>
+        <form id="reg-form">
+            <input type="text" autocomplete="off" placeholder="FullName" id="name" />
+            <input type="email" autocomplete="off" placeholder="Email" id="email" />
+            <input type="password" autocomplete="off" placeholder="Password" id="password" />
+            <input type="country" autocomplete="off" placeholder="Country" id="country" />
+            <input type="submit" value="Submit Form" id="" />
+        </form>
+        <script>
+            const form = document.getElementById("reg-form")
+            form.addEventListener("submit", registerUser)
+
+            async function registerUser(event){
+                event.preventDefault()
+                const fullname = document.getElementById("name").value
+                const email = document.getElementById("email").value
+                const password = document.getElementById("password").value
+                const country = document.getElementById("country").value
+                
+
+                const result = await fetch("/api/register", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        fullname,
+                        email,
+                        password,
+                        country,
+                        
+                    })
+                }).then((res) => res.json())
+                if(result.status === "ok"){
+                    console.log("everythings chill");
+                } else
+                {
+                    alert(result.error)
+                }
+            }
+        </script>
+    </body>
+</html>
